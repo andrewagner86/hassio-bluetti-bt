@@ -1,14 +1,13 @@
 """Coordinator for Bluetti integration."""
 
 from __future__ import annotations
-from typing import List, cast
+from typing import List
 
 import asyncio
 from datetime import timedelta
 import logging
-import async_timeout
 
-from bleak import BleakClient, BleakError
+from bleak import BleakClient
 
 from homeassistant.components import bluetooth
 from homeassistant.core import HomeAssistant
@@ -16,13 +15,7 @@ from homeassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
 )
 
-from bluetti_mqtt.bluetooth.client import BluetoothClient
-from bluetti_mqtt.bluetooth import (
-    BadConnectionError,
-    ModbusError,
-    ParseError,
-    build_device,
-)
+from bluetti_mqtt.bluetooth import build_device
 from bluetti_mqtt.core.devices.bluetti_device import BluettiDevice
 from bluetti_mqtt.core.commands import ReadHoldingRegisters
 
