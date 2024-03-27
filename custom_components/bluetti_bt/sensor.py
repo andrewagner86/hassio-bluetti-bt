@@ -75,6 +75,20 @@ async def async_setup_entry(
                         category=category,
                     )
                 )
+            elif field_config.type == FieldType.CHARACTER:
+                sensors_to_add.append(
+                    BluettiSensor(
+                        hass.data[DOMAIN][entry.entry_id][DATA_COORDINATOR],
+                        device_info,
+                        address,
+                        field_key,
+                        field_config.name,
+                        field_config.unit_of_measurement,
+                        field_config.device_class,
+                        field_config.state_class,
+                        category=category,
+                    )
+                )
             elif field_config.type == FieldType.ENUM:
                 sensors_to_add.append(
                     BluettiSensor(

@@ -55,3 +55,10 @@ class ChargingMode(Enum):
     STANDARD = 0
     SILENT = 1
     TURBO = 2
+
+
+@unique
+class TimeScheduleMode(Enum):
+    CHARGE = 1
+    DISCHARGE = 2
+    UNSET = 3

@@ -57,7 +57,16 @@ class IntField(DeviceField):
             return True
         else:
             return val >= self.range[0] and val <= self.range[1]
+        
 
+class UtintField(DeviceField):
+    def __init__(self, name: str, address: int, part: int):
+        self.part = part
+        super().__init__(name, address, 1)
+
+    def parse(self, data: bytes) -> int:
+        return struct.unpack('!2B', data)[self.part]
+    
 
 class BoolField(DeviceField):
     def __init__(self, name: str, address: int):
@@ -78,9 +87,7 @@ class EnumField(DeviceField):
 
 
 class DecimalField(DeviceField):
-    def __init__(
-        self, name: str, address: int, scale: int, range: Optional[Tuple[int, int]]
-    ):
+    def __init__(self, name: str, address: int, scale: int, range: Optional[Tuple[int, int]]):
         self.scale = scale
         self.range = range
         super().__init__(name, address, 1)
@@ -150,15 +157,16 @@ class DeviceStruct:
     def add_int_field(self, name: str, address: int, range: Tuple[int, int] = None):
         self.fields.append(IntField(name, address, range))
 
+    def add_utint_field(self, name: str, address: int, part: int = 0):
+        self.fields.append(UtintField(name, address, part))
+
     def add_bool_field(self, name: str, address: int):
         self.fields.append(BoolField(name, address))
 
     def add_enum_field(self, name: str, address: int, enum: Type[Enum]):
         self.fields.append(EnumField(name, address, enum))
 
-    def add_decimal_field(
-        self, name: str, address: int, scale: int, range: Tuple[int, int] = None
-    ):
+    def add_decimal_field(self, name: str, address: int, scale: int, range: Tuple[int, int] = None):
         self.fields.append(DecimalField(name, address, scale, range))
 
     def add_decimal_array_field(self, name: str, address: int, size: int, scale: int):

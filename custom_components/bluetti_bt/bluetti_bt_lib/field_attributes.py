@@ -10,6 +10,7 @@ from .field_enums import (
     OutputMode,
     SplitPhaseMachineType,
     UpsMode,
+    TimeScheduleMode,
 )
 
 
@@ -18,6 +19,7 @@ class FieldType(Enum):
     NUMERIC = auto()
     BOOL = auto()
     ENUM = auto()
+    CHARACTER = auto()
 
 
 class FieldAttributes:
@@ -116,6 +118,19 @@ class OutletFieldAttributes(FieldAttributes):
             name=name,
             setter=setter,
             device_class="outlet",
+        )
+
+
+class TextFieldAttributes(FieldAttributes):
+    def __init__(
+        self,
+        name: str = "",
+        setter: bool = False,
+    ):
+        super().__init__(
+            type=FieldType.CHARACTER,
+            name=name,
+            setter=setter
         )
 
 
@@ -296,6 +311,187 @@ FIELD_ATTRIBUTES: dict[str, FieldAttributes] = {
         setter=True,
         name="Power Lifting",
     ),
+
+    'total_battery_soc':FieldAttributes(
+        type=FieldType.NUMERIC,
+        name="Total Battery Percent",
+        unit_of_measurement="%",
+        device_class="battery",
+        state_class="measurement",
+    ),
+    'device_type':TextFieldAttributes('device_type'),
+    'device_sn':TextFieldAttributes('device_sn'),
+    'output_power':PowerFieldAttributes('output_power'),
+    'input_power':PowerFieldAttributes('input_power'),
+    'grid_power':PowerFieldAttributes('grid_power'),
+    'unknown_power':PowerFieldAttributes('unknown_power'),
+    'total_consumption':EnergyFieldAttributes('total_consumption'),
+    'total_feed':EnergyFieldAttributes('total_feed'),
+    'total_grid_consumption':EnergyFieldAttributes('total_grid_consumption'),
+    'total_grid_feed':EnergyFieldAttributes('total_grid_feed'),
+    'system_arm_version':TextFieldAttributes('system_arm_version'),
+    'system_dsp_version':TextFieldAttributes('system_dsp_version'),
+    'dc_input1_power':PowerFieldAttributes('dc_input1_power'),
+    'dc_input1_voltage':VoltageFieldAttributes('dc_input1_voltage'),
+    'dc_input1_current':CurrentFieldAttributes('dc_input1_current'),
+    'dc_input2_power':PowerFieldAttributes('dc_input2_power'),
+    'dc_input2_voltage':VoltageFieldAttributes('dc_input2_voltage'),
+    'dc_input2_current':CurrentFieldAttributes('dc_input2_current'),
+    'ac_input_phase1_power':PowerFieldAttributes('ac_input_phase1_power'),
+    'ac_input_phase1_voltage':VoltageFieldAttributes('ac_input_phase1_voltage'),
+    'ac_input_phase1_current':CurrentFieldAttributes('ac_input_phase1_current'),
+    'ac_input_phase2_power':PowerFieldAttributes('ac_input_phase2_power'),
+    'ac_input_phase2_voltage':VoltageFieldAttributes('ac_input_phase2_voltage'),
+    'ac_input_phase2_current':CurrentFieldAttributes('ac_input_phase2_current'),
+    'ac_input_phase3_power':PowerFieldAttributes('ac_input_phase3_power'),
+    'ac_input_phase3_voltage':VoltageFieldAttributes('ac_input_phase3_voltage'),
+    'ac_input_phase3_current':CurrentFieldAttributes('ac_input_phase3_current'),
+    'grid_frequency':FrequencyFieldAttributes('grid_frequency'),
+    'grid_phase1_power':PowerFieldAttributes('grid_phase1_power'),
+    'grid_phase1_voltage':VoltageFieldAttributes('grid_phase1_voltage'),
+    'grid_phase1_current':CurrentFieldAttributes('grid_phase1_current'),
+    'grid_phase2_power':PowerFieldAttributes('grid_phase2_power'),
+    'grid_phase2_voltage':VoltageFieldAttributes('grid_phase2_voltage'),
+    'grid_phase2_current':CurrentFieldAttributes('grid_phase2_current'),
+    'grid_phase3_power':PowerFieldAttributes('grid_phase3_power'),
+    'grid_phase3_voltage':VoltageFieldAttributes('grid_phase3_voltage'),
+    'grid_phase3_current':CurrentFieldAttributes('grid_phase3_current'),
+    'ac_output_phase1_power':PowerFieldAttributes('ac_output_phase1_power'),
+    'ac_output_phase1_voltage':VoltageFieldAttributes('ac_output_phase1_voltage'),
+    'ac_output_phase1_current':CurrentFieldAttributes('ac_output_phase1_current'),
+    'ac_output_phase2_power':PowerFieldAttributes('ac_output_phase2_power'),
+    'ac_output_phase2_voltage':VoltageFieldAttributes('ac_output_phase2_voltage'),
+    'ac_output_phase2_current':CurrentFieldAttributes('ac_output_phase2_current'),
+    'ac_output_phase3_power':PowerFieldAttributes('ac_output_phase3_power'),
+    'ac_output_phase3_voltage':VoltageFieldAttributes('ac_output_phase3_voltage'),
+    'ac_output_phase3_current':CurrentFieldAttributes('ac_output_phase3_current'),
+    'unknown_frequency':FrequencyFieldAttributes('unknown_frequency'),
+    'unknown_phase1_power':PowerFieldAttributes('unknown_phase1_power'),
+    'unknown_phase1_voltage':VoltageFieldAttributes('unknown_phase1_voltage'),
+    'unknown_phase1_current':CurrentFieldAttributes('unknown_phase1_current'),
+    'unknown_phase2_power':PowerFieldAttributes('unknown_phase2_power'),
+    'unknown_phase2_voltage':VoltageFieldAttributes('unknown_phase2_voltage'),
+    'unknown_phase2_current':CurrentFieldAttributes('unknown_phase2_current'),
+    'unknown_phase3_power':PowerFieldAttributes('unknown_phase3_power'),
+    'unknown_phase3_voltage':VoltageFieldAttributes('unknown_phase3_voltage'),
+    'unknown_phase3_current':CurrentFieldAttributes('unknown_phase3_current'),
+    'datetime_year':TextFieldAttributes('datetime_year'),
+    'datetime_month':TextFieldAttributes('datetime_month'),
+    'datetime_day':TextFieldAttributes('datetime_day'),
+    'datetime_hour':TextFieldAttributes('datetime_hour'),
+    'datetime_minute':TextFieldAttributes('datetime_minute'),
+    'datetime_second':TextFieldAttributes('datetime_second'),
+    'main_switch':OutletFieldAttributes(
+        name='main_switch',
+        setter=True,
+    ),
+    'min_battery_soc':FieldAttributes(
+        type=FieldType.NUMERIC,
+        setter=True,
+        name='min_battery_soc',
+        unit_of_measurement='%',
+    ),
+    'max_battery_soc':FieldAttributes(
+        type=FieldType.NUMERIC,
+        setter=True,
+        name='max_battery_soc',
+        unit_of_measurement='%',
+    ),
+    'time_control_switch':OutletFieldAttributes(
+        name='time_control_switch',
+        setter=True,
+    ),
+    'time_schedule1_mode':FieldAttributes(
+        type=FieldType.ENUM,
+        setter=True,
+        name='time_schedule1_mode',
+        options=TimeScheduleMode,
+    ),
+    'time_schedule1_start_hour':TextFieldAttributes('time_schedule1_start_hour'),
+    'time_schedule1_start_minute':TextFieldAttributes('time_schedule1_start_minute'),
+    'time_schedule1_end_hour':TextFieldAttributes('time_schedule1_end_hour'),
+    'time_schedule1_end_minute':TextFieldAttributes('time_schedule1_end_minute'),
+    'time_schedule2_mode':FieldAttributes(
+        type=FieldType.ENUM,
+        setter=True,
+        name='time_schedule2_mode',
+        options=TimeScheduleMode,
+    ),
+    'time_schedule2_start_hour':TextFieldAttributes('time_schedule2_start_hour'),
+    'time_schedule2_start_minute':TextFieldAttributes('time_schedule2_start_minute'),
+    'time_schedule2_end_hour':TextFieldAttributes('time_schedule2_end_hour'),
+    'time_schedule2_end_minute':TextFieldAttributes('time_schedule2_end_minute'),
+    'time_schedule3_mode':FieldAttributes(
+        type=FieldType.ENUM,
+        setter=True,
+        name='time_schedule3_mode',
+        options=TimeScheduleMode,
+    ),
+    'time_schedule3_start_hour':TextFieldAttributes('time_schedule3_start_hour'),
+    'time_schedule3_start_minute':TextFieldAttributes('time_schedule3_start_minute'),
+    'time_schedule3_end_hour':TextFieldAttributes('time_schedule3_end_hour'),
+    'time_schedule3_end_minute':TextFieldAttributes('time_schedule3_end_minute'),
+    'time_schedule4_mode':FieldAttributes(
+        type=FieldType.ENUM,
+        setter=True,
+        name='time_schedule4_mode',
+        options=TimeScheduleMode,
+    ),
+    'time_schedule4_start_hour':TextFieldAttributes('time_schedule4_start_hour'),
+    'time_schedule4_start_minute':TextFieldAttributes('time_schedule4_start_minute'),
+    'time_schedule4_end_hour':TextFieldAttributes('time_schedule4_end_hour'),
+    'time_schedule4_end_minute':TextFieldAttributes('time_schedule4_end_minute'),
+    'time_schedule5_mode':FieldAttributes(
+        type=FieldType.ENUM,
+        setter=True,
+        name='time_schedule5_mode',
+        options=TimeScheduleMode,
+    ),
+    'time_schedule5_start_hour':TextFieldAttributes('time_schedule5_start_hour'),
+    'time_schedule5_start_minute':TextFieldAttributes('time_schedule5_start_minute'),
+    'time_schedule5_end_hour':TextFieldAttributes('time_schedule5_end_hour'),
+    'time_schedule5_end_minute':TextFieldAttributes('time_schedule5_end_minute'),
+    'time_schedule6_mode':FieldAttributes(
+        type=FieldType.ENUM,
+        setter=True,
+        name='time_schedule6_mode',
+        options=TimeScheduleMode,
+    ),
+    'time_schedule6_start_hour':TextFieldAttributes('time_schedule6_start_hour'),
+    'time_schedule6_start_minute':TextFieldAttributes('time_schedule6_start_minute'),
+    'time_schedule6_end_hour':TextFieldAttributes('time_schedule6_end_hour'),
+    'time_schedule6_end_minute':TextFieldAttributes('time_schedule6_end_minute'),
+    'buzzer_switch':OutletFieldAttributes(
+        name='buzzer_switch',
+        setter=True,
+    ),
+    'charge_from_grid':OutletFieldAttributes(
+        name='charge_from_grid',
+        setter=True,
+    ),
+    'feed_to_grid':OutletFieldAttributes(
+        name='feed_to_grid',
+        setter=True,
+    ),
+    'max_input_power_per_phase':PowerFieldAttributes('max_input_power_per_phase'),
+    'max_input_current_per_phase':CurrentFieldAttributes('max_input_current_per_phase'),
+    'max_output_power_per_phase':PowerFieldAttributes('max_output_power_per_phase'),
+    'max_output_current_per_phase':CurrentFieldAttributes('max_output_current_per_phase'),
+    'grid_self_adjustment':OutletFieldAttributes(
+        name='grid_self_adjustment',
+        setter=True,
+    ),
+    'restore_system_switch':OutletFieldAttributes(
+        name='restore_system_switch',
+        setter=True,
+    ),
+    'battery_heater':OutletFieldAttributes(
+        name='battery_heater',
+        setter=True,
+    ),
+    'iot_version':TextFieldAttributes('iot_version'),
+    'wifi_name':TextFieldAttributes('wifi_name'),
+    'wifi_password':TextFieldAttributes('wifi_password'),
 }
 
 
